@@ -10,6 +10,10 @@ type Product {
   countryProduced: String
 }
 
+type AuthPayload {
+  access_token: String!
+}
+
 type Query {
   allProducts: [Product!]!
   product(_id: String!): Product!
@@ -19,6 +23,7 @@ type Mutation {
   createProduct(payload: NewProductInput!): Product!
   deleteProduct(_id: String!): Product!
   updateProduct(payload: UpdateProductInput!): Product!
+  login(loginInput: LoginInput!): AuthPayload!
 }
 
 input NewProductInput {
@@ -34,4 +39,9 @@ input UpdateProductInput {
   description: String
   price: Float
   countryProduced: String
+}
+
+input LoginInput {
+  password: String!
+  email: String!
 }

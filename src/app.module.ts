@@ -6,6 +6,7 @@ import { ProductsModule } from './products/products.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { dbUriCreator } from './helpers/dbUriCreator';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -17,9 +18,11 @@ import { dbUriCreator } from './helpers/dbUriCreator';
     GraphQLModule.forRoot({
       playground: true,
       autoSchemaFile: 'schema.gql',
+      context: ({ req }) => ({ headers: req.headers }),
     }),
     ProductsModule,
     MongooseModule.forRoot(dbUriCreator()),
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
