@@ -11,21 +11,14 @@ export class UsersService {
   ) {}
 
   async findOne(username: string): Promise<User | undefined> {
-    const found = await this.usersModel.findOne({ username: username });
+    const found = await this.usersModel.findOne({ username: username }).exec();
     console.log('found', found);
     return found;
   }
 
   async findOneByEmail(email: string): Promise<User | null> {
-    return this.usersModel.findOne({ email: email }).exec();
-  }
+    const foundUser = await this.usersModel.findOne({ email: email }).exec();
 
-  // async saveUser() {
-  //   const user = new this.usersModel({
-  //     username: 'andrew2',
-  //     password: 'guess123zxc',
-  //     email: 'andrew.stone@gmail.com',
-  //   });
-  //   return user.save();
-  // }
+    return foundUser;
+  }
 }

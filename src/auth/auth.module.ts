@@ -4,10 +4,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthService } from './auth.service';
 import { UsersService } from './users.service';
-import { LocalStrategy } from './auth.local.strategy';
-import { JwtStrategy } from './auth.jwt.strategy';
+import { LocalStrategy } from './strategies/auth.local.strategy';
+import { JwtStrategy } from './strategies/auth.jwt.strategy';
 import { AuthResolver } from './auth.resolver';
 import { User, UserSchema } from './model/user.model';
+import { AuthController } from './auth.controller';
 
 //TODO: move to env
 export const jwtConstants = {
@@ -16,13 +17,15 @@ export const jwtConstants = {
 
 @Module({
   imports: [
-    PassportModule,
+    PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       secret: jwtConstants.secret,
+      //TODO: move to env
       signOptions: { expiresIn: '6000s' },
     }),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
   ],
+  controllers: [AuthController],
   providers: [
     AuthService,
     LocalStrategy,

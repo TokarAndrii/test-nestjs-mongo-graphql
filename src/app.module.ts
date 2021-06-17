@@ -18,7 +18,10 @@ import { AuthModule } from './auth/auth.module';
     GraphQLModule.forRoot({
       playground: true,
       autoSchemaFile: 'schema.gql',
-      context: ({ req }) => ({ headers: req.headers }),
+      context: ({ req }) => ({
+        req,
+        headers: req.headers,
+      }),
     }),
     ProductsModule,
     MongooseModule.forRoot(dbUriCreator()),

@@ -2,15 +2,11 @@ import { Injectable, ExecutionContext } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import * as jwt from 'jsonwebtoken';
-import { jwtConstants } from './auth.module';
+import { jwtConstants } from '../auth.module';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
   canActivate(context: ExecutionContext) {
-    // Add your custom authentication logic here
-    // for example, call super.logIn(request) to establish a session.
-    //return super.canActivate(context);
-
     const ctx = GqlExecutionContext.create(context);
 
     if (!ctx.getContext().headers?.authorization) {
@@ -22,6 +18,11 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     );
 
     return validateTokenResult;
+  }
+
+  getRequest(context: ExecutionContext) {
+    const ctx = GqlExecutionContext.create(context);
+    return ctx.getContext().req;
   }
 
   async validateToken(authorization: string) {

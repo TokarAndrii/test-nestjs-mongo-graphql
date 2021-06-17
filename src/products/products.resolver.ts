@@ -5,7 +5,7 @@ import { Product } from './models/product.model';
 import { ProductsService } from './products.service';
 import { NewProductInput } from './dto/new-product.input';
 import { UpdateProductInput } from './dto/update-product.input';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Resolver(() => Product)
 export class ProductsResolver {
